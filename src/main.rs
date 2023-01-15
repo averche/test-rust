@@ -1,6 +1,7 @@
 fn main() {
     basics();
     animal_test();
+    derive_builder_test();
 }
 
 fn basics() {
@@ -90,5 +91,26 @@ fn print_animals(animals: &[Box<dyn Animal>]) {
     for a in animals {
         a.speak();
     }
+}
+
+#[macro_use]
+extern crate derive_builder;
+
+#[derive(Default, Builder, Debug)]
+#[builder(setter(into))]
+struct Channel {
+    token: i32,
+    special_info: i32,
+    // .. a whole bunch of other fields ..
+}
+
+fn derive_builder_test() {
+    // builder pattern, go, go, go!...
+    let ch = ChannelBuilder::default()
+        .special_info(42u8)
+        .token(19124)
+        .build()
+        .unwrap();
+    println!("{:?} token: {} special_info: {}", ch, ch.token, ch.special_info);
 }
 
