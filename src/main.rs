@@ -55,16 +55,26 @@ fn print_str(x: String) {
 }
 
 fn animal_test() {
-    let cat1: Box<Cat> = Box::new(Cat { name: "cat1".to_string() });
-    let dog1: Box<Dog> = Box::new(Dog { name: "dog1".to_string() });
-    let dog2: Box<Dog> = Box::new(Dog { name: "dog2".to_string() });
+    let cat1: Box<dyn Animal> = Box::new(Cat { name: "cat1".to_string() });
+    let dog1: Box<dyn Animal> = Box::new(Dog { name: "dog1".to_string() });
+    let dog2: Box<dyn Animal> = Box::new(Dog { name: "dog2".to_string() });
 
-    let animals: Vec<Box<dyn Animal>> = vec![cat1, dog1, dog2];
+    let cat3 = Cat{name: "cat3".to_string()};
+    let cat4 = Cat{name: "cat4".to_string()};
+
+    print_animal(&cat3);
+    print_animal(&cat4);
+    print_animal_t(&cat4);
+
+    let mut animals: Vec<Box<dyn Animal>> = vec![cat1, dog1, dog2];
+    animals.push(Box::new(cat3));
+    animals.push(Box::new(cat4));
+
     print_animals(&animals);
 }
 
 trait Animal {
-    fn speak(&self);
+    fn speak(&self, prefix: &str);
 }
 
 struct Cat {
@@ -72,8 +82,8 @@ struct Cat {
 }
 
 impl Animal for Cat {
-    fn speak(&self) {
-        println!("{}: meow!", self.name);
+    fn speak(&self, prefix: &str) {
+        println!("{}: {}: meow!", prefix, self.name);
     }
 }
 
@@ -82,15 +92,23 @@ struct Dog {
 }
 
 impl Animal for Dog {
-    fn speak(&self) {
-        println!("{}: woof!", self.name);
+    fn speak(&self, prefix: &str) {
+        println!("{}: {}: meow!", prefix, self.name);
     }
 }
 
 fn print_animals(animals: &[Box<dyn Animal>]) {
     for a in animals {
-        a.speak();
+        a.speak("animals");
     }
+}
+
+fn print_animal_t<T: Animal>(animal: &T) {
+    animal.speak("animal_t");
+}
+
+fn print_animal(animal: &dyn Animal) {
+    animal.speak("animal");
 }
 
 #[macro_use]
