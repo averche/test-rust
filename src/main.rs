@@ -55,12 +55,22 @@ fn print_str(x: String) {
 }
 
 fn animal_test() {
-    let cat1: Box<dyn Animal> = Box::new(Cat { name: "cat1".to_string() });
-    let dog1: Box<dyn Animal> = Box::new(Dog { name: "dog1".to_string() });
-    let dog2: Box<dyn Animal> = Box::new(Dog { name: "dog2".to_string() });
+    let cat1: Box<dyn Animal> = Box::new(Cat {
+        name: "cat1".to_string(),
+    });
+    let dog1: Box<dyn Animal> = Box::new(Dog {
+        name: "dog1".to_string(),
+    });
+    let dog2: Box<dyn Animal> = Box::new(Dog {
+        name: "dog2".to_string(),
+    });
 
-    let cat3 = Cat{name: "cat3".to_string()};
-    let cat4 = Cat{name: "cat4".to_string()};
+    let cat3 = Cat {
+        name: "cat3".to_string(),
+    };
+    let cat4 = Cat {
+        name: "cat4".to_string(),
+    };
 
     print_animal(&cat3);
     print_animal(&cat4);
@@ -78,7 +88,7 @@ trait Animal {
 }
 
 struct Cat {
-    name: String
+    name: String,
 }
 
 impl Animal for Cat {
@@ -88,7 +98,7 @@ impl Animal for Cat {
 }
 
 struct Dog {
-    name: String
+    name: String,
 }
 
 impl Animal for Dog {
@@ -129,6 +139,8 @@ fn derive_builder_test() {
         .token(19124)
         .build()
         .unwrap();
-    println!("{:?} token: {} special_info: {}", ch, ch.token, ch.special_info);
+    println!(
+        "{:?} token: {} special_info: {}",
+        ch, ch.token, ch.special_info
+    );
 }
-
