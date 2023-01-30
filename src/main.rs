@@ -1,4 +1,8 @@
 fn main() {
+}
+
+#[test]
+fn test_stuff() {
     basics();
     animal_test();
     derive_builder_test();
