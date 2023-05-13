@@ -21,6 +21,23 @@ fn find_linear(sorted: &[i32], target: i32) -> usize {
     return sorted.len() + 1;
 }
 
+fn find_binary(sorted: &[i32], target: i32) -> usize {
+    let mut left = 0;
+    let mut right = sorted.len();
+
+    while left < right {
+        let mid = left + (right - left) / 2;
+
+        if sorted[mid] <= target {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+
+    return left + 1;
+}
+
 #[macro_use]
 extern crate derive_builder;
 
@@ -47,21 +64,24 @@ fn derive_builder_test() {
 
 #[cfg(test)]
 mod tests {
-    use crate::{find_iter, find_linear};
+    use crate::{find_binary, find_iter, find_linear};
 
     #[test]
     fn test_find() {
         let vec1 = [8, 14, 23, 34, 42, 49];
 
         for &(expected, target) in [
+            (1, 0),
             (1, 5),
             (4, 25),
             (5, 34),
             (6, 45),
+            (7, 49),
             (7, 100), //
         ]
         .iter()
         {
+            assert_eq!(expected, find_binary(&vec1, target));
             assert_eq!(expected, find_iter(&vec1, target));
             assert_eq!(expected, find_linear(&vec1, target));
         }
