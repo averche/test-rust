@@ -51,19 +51,20 @@ mod tests {
 
     #[test]
     fn test_find() {
-        let vec1: Vec<i32> = vec![8, 14, 23, 34, 42, 49];
+        let vec1 = [8, 14, 23, 34, 42, 49];
 
-        assert_eq!(1, find_iter(&vec1, 5));
-        assert_eq!(4, find_iter(&vec1, 25));
-        assert_eq!(5, find_iter(&vec1, 34));
-        assert_eq!(6, find_iter(&vec1, 45));
-        assert_eq!(7, find_iter(&vec1, 100));
-
-        assert_eq!(1, find_linear(&vec1, 5));
-        assert_eq!(4, find_linear(&vec1, 25));
-        assert_eq!(5, find_linear(&vec1, 34));
-        assert_eq!(6, find_linear(&vec1, 45));
-        assert_eq!(7, find_linear(&vec1, 100));
+        for &(expected, target) in [
+            (1, 5),
+            (4, 25),
+            (5, 34),
+            (6, 45),
+            (7, 100), //
+        ]
+        .iter()
+        {
+            assert_eq!(expected, find_iter(&vec1, target));
+            assert_eq!(expected, find_linear(&vec1, target));
+        }
     }
 
     #[test]
