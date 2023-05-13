@@ -1,4 +1,9 @@
-use std::usize;
+#![feature(portable_simd)]
+
+use std::{
+    simd::{Simd, SimdPartialOrd, ToBitMask},
+    usize,
+};
 
 fn main() {
     derive_builder_test();
@@ -38,6 +43,38 @@ fn find_binary(sorted: &[i32], target: i32) -> usize {
     return left + 1;
 }
 
+fn find_simd(sorted: &[i32], target: i32) -> usize {
+    let sorted_len = sorted.len();
+
+    let target_8: Simd<i32, 8> = Simd::splat(target);
+
+    let mut i: usize = 0;
+
+    while i < sorted_len {
+        if sorted_len - i < 8 {
+            // this is the last batch: iterate
+            while i < sorted_len {
+                if target < sorted[i] {
+                    return i + 1;
+                }
+                i += 1;
+            }
+        } else {
+            // simd
+            let next_8: Simd<i32, 8> = Simd::from_slice(&sorted[i..(i + 8)]);
+
+            let matches = target_8.simd_lt(next_8);
+            if matches.any() {
+                return i + (matches.to_bitmask().trailing_zeros() as usize) + 1;
+            }
+
+            i += 8;
+        }
+    }
+
+    return sorted_len + 1;
+}
+
 #[macro_use]
 extern crate derive_builder;
 
@@ -64,11 +101,11 @@ fn derive_builder_test() {
 
 #[cfg(test)]
 mod tests {
-    use crate::{find_binary, find_iter, find_linear};
+    use crate::{find_binary, find_iter, find_linear, find_simd};
 
     #[test]
     fn test_find() {
-        let vec1 = [8, 14, 23, 34, 42, 49];
+        let vec1 = [8, 14, 23, 34, 42, 49, 53, 59, 63, 72];
 
         for &(expected, target) in [
             (1, 0),
@@ -77,13 +114,14 @@ mod tests {
             (5, 34),
             (6, 45),
             (7, 49),
-            (7, 100), //
+            (11, 100), //
         ]
         .iter()
         {
             assert_eq!(expected, find_binary(&vec1, target));
             assert_eq!(expected, find_iter(&vec1, target));
             assert_eq!(expected, find_linear(&vec1, target));
+            assert_eq!(expected, find_simd(&vec1, target));
         }
     }
 
