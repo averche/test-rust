@@ -1,5 +1,24 @@
+use std::usize;
+
 fn main() {
     derive_builder_test();
+}
+
+fn find_iter(sorted: &[i32], target: i32) -> usize {
+    return sorted
+        .iter()
+        .position(|&el| target < el)
+        .unwrap_or(sorted.len())
+        + 1;
+}
+
+fn find_linear(sorted: &[i32], target: i32) -> usize {
+    for (i, &el) in sorted.iter().enumerate() {
+        if target < el {
+            return i + 1;
+        }
+    }
+    return sorted.len() + 1;
 }
 
 #[macro_use]
@@ -28,6 +47,24 @@ fn derive_builder_test() {
 
 #[cfg(test)]
 mod tests {
+    use crate::{find_iter, find_linear};
+
+    #[test]
+    fn test_find() {
+        let vec1: Vec<i32> = vec![8, 14, 23, 34, 42, 49];
+
+        assert_eq!(1, find_iter(&vec1, 5));
+        assert_eq!(4, find_iter(&vec1, 25));
+        assert_eq!(5, find_iter(&vec1, 34));
+        assert_eq!(6, find_iter(&vec1, 45));
+        assert_eq!(7, find_iter(&vec1, 100));
+
+        assert_eq!(1, find_linear(&vec1, 5));
+        assert_eq!(4, find_linear(&vec1, 25));
+        assert_eq!(5, find_linear(&vec1, 34));
+        assert_eq!(6, find_linear(&vec1, 45));
+        assert_eq!(7, find_linear(&vec1, 100));
+    }
 
     #[test]
     fn test_stuff() {
