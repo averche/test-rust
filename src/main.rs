@@ -1,9 +1,8 @@
 #![feature(portable_simd)]
 
-use std::{
-    simd::{Simd, SimdPartialOrd, ToBitMask},
-    usize,
-};
+use std::simd::Simd;
+use std::simd::SimdPartialOrd;
+use std::simd::ToBitMask;
 
 fn main() {
     derive_builder_test();
