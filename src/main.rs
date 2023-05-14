@@ -1,6 +1,8 @@
 #![feature(portable_simd)]
 #![feature(test)]
 
+extern crate test;
+
 mod simd_test;
 
 fn main() {
