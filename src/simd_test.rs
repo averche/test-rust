@@ -77,6 +77,9 @@ mod tests {
     use crate::simd_test::find_linear;
     use crate::simd_test::find_simd;
 
+    use test::black_box;
+    use test::Bencher;
+
     #[test]
     fn test_find() {
         let vec1 = [8, 14, 23, 34, 42, 49, 53, 59, 63, 72];
@@ -97,5 +100,97 @@ mod tests {
             assert_eq!(expected, find_linear(&vec1, target));
             assert_eq!(expected, find_simd(&vec1, target));
         }
+    }
+
+    #[bench]
+    fn bench_80_find_binary(b: &mut Bencher) {
+        let vec1: Vec<i32> = (0..80).map(|x| x * 100 + 20).collect();
+        let vec2: Vec<i32> = (0..80).map(|x| x * 100 + 50).collect();
+
+        b.iter(|| {
+            for _ in 0..10 {
+                for target in vec1.iter() {
+                    black_box(find_binary(&vec2, *target));
+                }
+                for target in vec1.iter().rev() {
+                    black_box(find_binary(&vec2, *target));
+                }
+                for target in vec2.iter() {
+                    black_box(find_binary(&vec2, *target));
+                }
+                for target in vec2.iter().rev() {
+                    black_box(find_binary(&vec2, *target));
+                }
+            }
+        });
+    }
+
+    #[bench]
+    fn bench_80_find_iter(b: &mut Bencher) {
+        let vec1: Vec<i32> = (0..80).map(|x| x * 100 + 20).collect();
+        let vec2: Vec<i32> = (0..80).map(|x| x * 100 + 50).collect();
+
+        b.iter(|| {
+            for _ in 0..10 {
+                for target in vec1.iter() {
+                    black_box(find_iter(&vec2, *target));
+                }
+                for target in vec1.iter().rev() {
+                    black_box(find_iter(&vec2, *target));
+                }
+                for target in vec2.iter() {
+                    black_box(find_iter(&vec2, *target));
+                }
+                for target in vec2.iter().rev() {
+                    black_box(find_iter(&vec2, *target));
+                }
+            }
+        });
+    }
+
+    #[bench]
+    fn bench_80_find_linear(b: &mut Bencher) {
+        let vec1: Vec<i32> = (0..80).map(|x| x * 100 + 20).collect();
+        let vec2: Vec<i32> = (0..80).map(|x| x * 100 + 50).collect();
+
+        b.iter(|| {
+            for _ in 0..10 {
+                for target in vec1.iter() {
+                    black_box(find_linear(&vec2, *target));
+                }
+                for target in vec1.iter().rev() {
+                    black_box(find_linear(&vec2, *target));
+                }
+                for target in vec2.iter() {
+                    black_box(find_linear(&vec2, *target));
+                }
+                for target in vec2.iter().rev() {
+                    black_box(find_linear(&vec2, *target));
+                }
+            }
+        });
+    }
+
+    #[bench]
+    fn bench_80_find_simd(b: &mut Bencher) {
+        let vec1: Vec<i32> = (0..80).map(|x| x * 100 + 20).collect();
+        let vec2: Vec<i32> = (0..80).map(|x| x * 100 + 50).collect();
+
+        b.iter(|| {
+            for _ in 0..10 {
+                for target in vec1.iter() {
+                    black_box(find_simd(&vec2, *target));
+                }
+                for target in vec1.iter().rev() {
+                    black_box(find_simd(&vec2, *target));
+                }
+                for target in vec2.iter() {
+                    black_box(find_simd(&vec2, *target));
+                }
+                for target in vec2.iter().rev() {
+                    black_box(find_simd(&vec2, *target));
+                }
+            }
+        });
     }
 }
