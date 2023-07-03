@@ -2,7 +2,15 @@ use std::simd::Simd;
 use std::simd::SimdPartialOrd;
 use std::simd::ToBitMask;
 
-pub fn t() {}
+pub fn t() {
+    let vec1 = [];
+
+    // "use" the functions to satisfy the compiler
+    find_binary(&vec1, 0);
+    find_iter(&vec1, 0);
+    find_linear(&vec1, 0);
+    find_simd(&vec1, 0);
+}
 
 fn find_iter(sorted: &[i32], target: i32) -> usize {
     return sorted
