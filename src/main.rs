@@ -121,6 +121,8 @@ mod tests {
         print_animals(&animals);
     }
 
+    // TRAITS //
+
     trait Animal {
         fn speak(&self, prefix: &str);
     }
