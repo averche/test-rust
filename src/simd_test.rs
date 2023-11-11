@@ -1,17 +1,13 @@
+#[cfg(test)]
 use std::simd::Simd;
+
+#[cfg(test)]
 use std::simd::SimdPartialOrd;
+
+#[cfg(test)]
 use std::simd::ToBitMask;
 
-pub fn t() {
-    let vec1 = [];
-
-    // "use" the functions to satisfy the compiler
-    find_binary(&vec1, 0);
-    find_iter(&vec1, 0);
-    find_linear(&vec1, 0);
-    find_simd(&vec1, 0);
-}
-
+#[cfg(test)]
 fn find_iter(sorted: &[i32], target: i32) -> usize {
     return sorted
         .iter()
@@ -20,6 +16,7 @@ fn find_iter(sorted: &[i32], target: i32) -> usize {
         + 1;
 }
 
+#[cfg(test)]
 fn find_linear(sorted: &[i32], target: i32) -> usize {
     for (i, &el) in sorted.iter().enumerate() {
         if target < el {
@@ -29,6 +26,7 @@ fn find_linear(sorted: &[i32], target: i32) -> usize {
     return sorted.len() + 1;
 }
 
+#[cfg(test)]
 fn find_binary(sorted: &[i32], target: i32) -> usize {
     let mut left = 0;
     let mut right = sorted.len();
@@ -46,6 +44,7 @@ fn find_binary(sorted: &[i32], target: i32) -> usize {
     return left + 1;
 }
 
+#[cfg(test)]
 fn find_simd(sorted: &[i32], target: i32) -> usize {
     let sorted_len = sorted.len();
 
