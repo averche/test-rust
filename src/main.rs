@@ -7,7 +7,6 @@ mod simd_test;
 
 fn main() {
     derive_builder_test();
-    simd_test::t();
 }
 
 #[macro_use]
