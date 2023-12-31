@@ -20,6 +20,7 @@ jobs:
       - name: Install latest nightly
         uses: actions-rs/toolchain@v1
         with:
+          profile: rust-std
           toolchain: nightly
           override: true
 
