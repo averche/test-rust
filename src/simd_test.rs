@@ -18,7 +18,8 @@ mod tests {
                 return i + 1;
             }
         }
-        return sorted.len() + 1;
+
+        sorted.len() + 1
     }
 
     fn find_binary(sorted: &[i32], target: i32) -> usize {
@@ -35,7 +36,7 @@ mod tests {
             }
         }
 
-        return left + 1;
+        left + 1
     }
 
     fn find_simd(sorted: &[i32], target: i32) -> usize {
@@ -67,7 +68,7 @@ mod tests {
             }
         }
 
-        return sorted_len + 1;
+        sorted_len + 1
     }
 
     use test::black_box;
