@@ -46,17 +46,9 @@ mod tests {
 
         let mut i: usize = 0;
 
-        while i < sorted_len {
-            if sorted_len - i < 8 {
-                // this is the last batch: iterate
-                while i < sorted_len {
-                    if target < sorted[i] {
-                        return i + 1;
-                    }
-                    i += 1;
-                }
-            } else {
-                // simd
+        // if the array is evenly divisible by 8 ...
+        if sorted_len % 8 == 0 {
+            while i < sorted_len {
                 let next_8: Simd<i32, 8> = Simd::from_slice(&sorted[i..(i + 8)]);
 
                 let matches = target_8.simd_lt(next_8);
@@ -66,6 +58,27 @@ mod tests {
 
                 i += 8;
             }
+            return sorted_len + 1;
+        }
+
+        // else, handle it in two steps
+        while i < sorted_len - 8 {
+            // simd
+            let next_8: Simd<i32, 8> = Simd::from_slice(&sorted[i..(i + 8)]);
+
+            let matches = target_8.simd_lt(next_8);
+            if matches.any() {
+                return i + (matches.to_bitmask().trailing_zeros() as usize) + 1;
+            }
+
+            i += 8;
+        }
+
+        while i < sorted_len {
+            if target < sorted[i] {
+                return i + 1;
+            }
+            i += 1;
         }
 
         sorted_len + 1
