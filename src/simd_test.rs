@@ -110,9 +110,9 @@ mod tests {
     }
 
     #[bench]
-    fn bench_80_find_binary(b: &mut Bencher) {
-        let vec1: Vec<i32> = (0..80).map(|x| x * 100 + 20).collect();
-        let vec2: Vec<i32> = (0..80).map(|x| x * 100 + 50).collect();
+    fn bench_100_find_binary(b: &mut Bencher) {
+        let vec1: Vec<i32> = (0..100).map(|x| x * 100 + 20).collect();
+        let vec2: Vec<i32> = (0..100).map(|x| x * 100 + 50).collect();
 
         b.iter(|| {
             for _ in 0..10 {
@@ -133,9 +133,9 @@ mod tests {
     }
 
     #[bench]
-    fn bench_80_find_iter(b: &mut Bencher) {
-        let vec1: Vec<i32> = (0..80).map(|x| x * 100 + 20).collect();
-        let vec2: Vec<i32> = (0..80).map(|x| x * 100 + 50).collect();
+    fn bench_100_find_iter(b: &mut Bencher) {
+        let vec1: Vec<i32> = (0..100).map(|x| x * 100 + 20).collect();
+        let vec2: Vec<i32> = (0..100).map(|x| x * 100 + 50).collect();
 
         b.iter(|| {
             for _ in 0..10 {
@@ -156,9 +156,9 @@ mod tests {
     }
 
     #[bench]
-    fn bench_80_find_linear(b: &mut Bencher) {
-        let vec1: Vec<i32> = (0..80).map(|x| x * 100 + 20).collect();
-        let vec2: Vec<i32> = (0..80).map(|x| x * 100 + 50).collect();
+    fn bench_100_find_linear(b: &mut Bencher) {
+        let vec1: Vec<i32> = (0..100).map(|x| x * 100 + 20).collect();
+        let vec2: Vec<i32> = (0..100).map(|x| x * 100 + 50).collect();
 
         b.iter(|| {
             for _ in 0..10 {
@@ -179,9 +179,9 @@ mod tests {
     }
 
     #[bench]
-    fn bench_80_find_simd(b: &mut Bencher) {
-        let vec1: Vec<i32> = (0..80).map(|x| x * 100 + 20).collect();
-        let vec2: Vec<i32> = (0..80).map(|x| x * 100 + 50).collect();
+    fn bench_100_find_simd(b: &mut Bencher) {
+        let vec1: Vec<i32> = (0..100).map(|x| x * 100 + 20).collect();
+        let vec2: Vec<i32> = (0..100).map(|x| x * 100 + 50).collect();
 
         b.iter(|| {
             for _ in 0..10 {
